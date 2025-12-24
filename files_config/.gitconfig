@@ -1,0 +1,165 @@
+[user]
+	name = CORBISIER Eric
+	email = contact@corbisier.fr
+
+[init]
+    defaultBranch = main
+
+[filter "lfs"]
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+
+[core]
+    longpaths = true
+    filemode = false
+    sshCommand = ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes
+	autocrlf = true
+    editor = nano
+
+[color]
+    status = true
+    pager = true
+    ui = true
+    diff = auto
+    whitespace = normal
+
+[color "br"]
+    current = red
+    local = yellow
+
+
+[credential "https://github.com"]
+    helper =
+    helper = !/usr/bin/gh auth git-credential
+
+
+[push]
+    default = simple
+
+[pull]
+    rebase = false
+
+[diff]
+    tool = vscode
+
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[http]
+	sslBackend = schannel
+
+
+[alias]
+    # --- Commit ---
+    # Commit simple avec message
+    cm = "!f(){ git commit -m \"$1\"; }; f"
+    # Commit avec préfixe Eric/
+    cmx = "!f(){ git commit -m \"Eric/$1\"; }; f"
+
+    # --- Add Commit ---
+    # Ajout commit
+    ac = "!f(){ git add -A && git commit -m \"$1\"; }; f"
+    # Ajout commit (Eric/)
+    acx = "!f(){ git add -A && git commit -m \"Eric/$1\"; }; f"
+
+    # --- Add Commit Push ---
+    # Ajout commit push
+    pp = "!f(){ git add -A && git commit -m \"$1\" && git push origin $(git symbolic-ref --short HEAD); }; f"
+    # Ajout commit push (Eric/)
+    ppx = "!f(){ git add -A && git commit -m \"Eric/$1\" && git push origin $(git symbolic-ref --short HEAD); }; f"
+
+    # Ajout commit push vide
+    pp--vide = "!f(){ git commit --allow-empty -m "commit vide pour test" && git push; }; f"
+
+
+    # --- Branches ---
+
+    # Push branche courante
+    ps =       "!f(){ git push origin $(git symbolic-ref --short HEAD); }; f"
+    ps--main = "!f() { git push origin $(git symbolic-ref --short HEAD) && git checkout main; }; f"
+    ps--dev =  "!f() { git push origin $(git symbolic-ref --short HEAD) && git checkout develop; }; f"
+
+    # Nouvelle branche
+
+
+
+    br =                    "!f() { br=$(echo \"$1\" | sed 's/[éèêë]/e/g; s/[àâä]/a/g; s/[îï]/i/g; s/[ôö]/o/g; s/[ùûü]/u/g; s/[ç]/c/g; s/[ ]/_/g; s/[][]//g; s/_-_/-/g; s/ - /-/g' | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._/-]/_/g' ) && git checkout -b \"$br\" && git push origin -u \"$br\" ; }; f"
+
+    #
+    new--br =               "!f() { br=$(echo \"feature/Eric/Ticket-$1/$2\" | sed 's/[éèêë]/e/g; s/[àâä]/a/g; s/[îï]/i/g; s/[ôö]/o/g; s/[ùûü]/u/g; s/[ç]/c/g; s/[ ]/_/g; s/[][]//g; s/_-_/-/g; s/ - /-/g' | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._/-]/_/g' ) && git checkout -b \"$br\" && git push origin -u \"$br\" ; }; f"
+    new--br--dev =          "!f() { br=$(echo \"feature/Eric/Ticket-$1/$2\" | sed 's/[éèêë]/e/g; s/[àâä]/a/g; s/[îï]/i/g; s/[ôö]/o/g; s/[ùûü]/u/g; s/[ç]/c/g; s/[ ]/_/g; s/[][]//g; s/_-_/-/g; s/ - /-/g' | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._/-]/_/g' ) && git checkout -b \"$br\" develop && git push origin -u \"$br\" ; }; f"
+    new--br--release =      "!f() { br=$(echo \"feature/Eric/Ticket-$1/$2\" | sed 's/[éèêë]/e/g; s/[àâä]/a/g; s/[îï]/i/g; s/[ôö]/o/g; s/[ùûü]/u/g; s/[ç]/c/g; s/[ ]/_/g; s/[][]//g; s/_-_/-/g; s/ - /-/g' | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._/-]/_/g' ) && git checkout -b \"$br\" origin/Release_\"$3\" && git push origin -u \"$br\" ; }; f"
+    new--br--release--dev = "!f() { br=$(echo \"fix-ano/Eric/Ticket-$1/$2\"  | sed 's/[éèêë]/e/g; s/[àâä]/a/g; s/[îï]/i/g; s/[ôö]/o/g; s/[ùûü]/u/g; s/[ç]/c/g; s/[ ]/_/g; s/[][]//g; s/_-_/-/g; s/ - /-/g' | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._/-]/_/g' ) && git checkout -b \"$br\" origin/Release_\"$3\" && git push origin -u \"$br\" ; }; f"
+    new--br--fix =          "!f() { br=$(echo \"fix-ano/Eric/Ticket-$1/$2\"  | sed 's/[éèêë]/e/g; s/[àâä]/a/g; s/[îï]/i/g; s/[ôö]/o/g; s/[ùûü]/u/g; s/[ç]/c/g; s/[ ]/_/g; s/[][]//g; s/_-_/-/g; s/ - /-/g' | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._/-]/_/g' ) && git checkout -b \"$br\" && git push origin -u \"$br\" ; }; f"
+    new--br--fix--dev =     "!f() { br=$(echo \"fix-ano/Eric/Ticket-$1/$2\"  | sed 's/[éèêë]/e/g; s/[àâä]/a/g; s/[îï]/i/g; s/[ôö]/o/g; s/[ùûü]/u/g; s/[ç]/c/g; s/[ ]/_/g; s/[][]//g; s/_-_/-/g; s/ - /-/g' | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._/-]/_/g' ) && git checkout -b \"$br\" develop && git push origin -u \"$br\" ; }; f"
+
+
+
+    # Changer de branche
+    br--c =             "!f(){ br=$(echo \"$1\" | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._ \\/-]//g' | sed -E 's/[[:space:]]+/_/g') && git checkout \"$br\" && git pull; }; f"
+    br--c--release =    "!f(){ br=$(echo \"Release_$1\" | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._ \\/-]//g' | sed -E 's/[[:space:]]+/_/g') && git checkout \"$br\" && git pull; }; f"
+    br--cx =            "!f(){ br=$(echo \"Eric/$1\" | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._ \\/-]//g' | sed -E 's/[[:space:]]+/_/g') && git checkout \"$br\" && git pull; }; f"
+    main =              "!f() { git checkout main && git pull; }; f"
+    homol =             "!f() { git checkout homol && git pull; }; f"
+    dev =               "!f() { git checkout develop && git pull; }; f"
+    release =           "!f() { if git show-ref --verify --quiet refs/heads/Release_\"$1\"; then git checkout Release_\"$1\"; else git checkout -b Release_\"$1\" origin/Release_\"$1\"; fi; }; f"
+
+    # Renommer une branche
+    br--rn = "!f() { brdel=$(echo \"$1\" | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._ \\/-]//g' | sed -E 's/[[:space:]]+/_/g; s/_-_/-/g; s/ - /-/g') && br=$(echo \"$2\" | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._ \\/-]//g'| sed -E 's/[[:space:]]+/_/g; s/_-_/-/g; s/ - /-/g') && git branch -m \"$br\" && git push origin -u \"$br\" && git branch -D \"$brdel\" && git push origin --delete \"$brdel\"; }; f"
+
+    # suppression d'une branche
+    dl =    "!f() { br=$(echo \"$1\" | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._ \\/-]//g' | sed -E 's/[[:space:]]+/_/g; s/_-_/-/g; s/ - /-/g') && git dev && git branch -D \"$br\" && git push origin --delete \"$br\"; }; f"
+
+    # --- Gitignore ---
+    # Commit changement .gitignore
+    ac--ig =  "!f(){ git add .gitignore && git commit -m \"Change gitignore\"; }; f"
+    ac--igx = "!f(){ git add .gitignore && git commit -m \"Eric/Change gitignore\"; }; f"
+    pp--ig =  "!f(){ git add .gitignore && git commit -m \"Change gitignore\" && git push origin $(git symbolic-ref --short HEAD); }; f"
+    pp--igx = "!f(){ git add .gitignore && git commit -m \"Eric/Change gitignore\" && git push origin $(git symbolic-ref --short HEAD); }; f"
+
+    # --- Untrack (rm --cached) ---
+    # Retire fichier de l’index (rm --cached)
+    ac--r =   "!f(){ file=\"$1\"; git rm --cached -r \"$file\" && git add -A && git commit -m \"remote : $file\"; }; f"
+    ac--rx =  "!f(){ file=\"$1\"; git rm --cached -r \"$file\" && git add -A && git commit -m \"Eric/remote : $file\"; }; f"
+    pp--r =  "!f(){ file=\"$1\"; git rm --cached -r \"$file\" && git add -A && git commit -m \"remote : $file\" && git push origin $(git symbolic-ref --short HEAD); }; f"
+    pp--rx = "!f(){ file=\"$1\"; git rm --cached -r \"$file\" && git add -A && git commit -m \"Eric/remote : $file\" && git push origin $(git symbolic-ref --short HEAD); }; f"
+
+    # --- README ---
+    # Commit push README.md
+    ac--rd =   "!f(){ git add README.md && git commit -m \"Change readme\"; }; f"
+    ac--rdx =  "!f(){ git add README.md && git commit -m \"Eric/Change readme\"; }; f"
+    pp--rd =  "!f(){ git add README.md && git commit -m \"Change readme\" && git push origin $(git symbolic-ref --short HEAD); }; f"
+    pp--rdx = "!f(){ git add README.md && git commit -m \"Eric/Change readme\" && git push origin $(git symbolic-ref --short HEAD); }; f"
+
+    # --- Utilitaires (neutres uniquement) ---
+    # Status simplifié
+    st = status -sb
+
+    # Log graphique condensé
+    lg = log --oneline --graph --decorate --all
+
+    # Récupère tout nettoie branches supprimées
+    up = fetch --all --prune
+
+    # Reset hard local
+    hard =    "!f() { git fetch --all && git reset --hard origin/main ;}; f"
+    hard--dev = "!f() { git fetch --all && git reset --hard origin/develop ;}; f"
+    hard--release = "!f() { git fetch --all && git reset --hard origin/Release_\"$1\" ;}; f"
+    hard--br =  "!f() { br=$(echo \"$1\" | sed -E 's/[[:space:]]+/_/g'| iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._ \\/-]//g') && git fetch --all && git reset --hard origin/"$br" ;}; f"
+    hard--brx = "!f() { br=$(echo \"feature/Eric/$1/$code-$2/$3\" | iconv -f UTF-8 -t ascii//TRANSLIT | sed 's/[^a-zA-Z0-9._ \\/-]//g' | sed -E 's/[[:space:]]+/_/g') && git fetch --all && git reset --hard origin/"$br" ;}; f"
+
+    # Reset hard sur origin/branche
+    hard--origin = "!f(){ b=${1:-$(git rev-parse --abbrev-ref HEAD)}; git fetch origin \"$b\" && git reset --hard \"origin/$b\"; }; f"
+
+
+
+# -----------------------------
+# Section Pro (dans un dossier spécifique)
+# Applique automatiquement une identité pro
+# -----------------------------
+[includeIf "gitdir:C:/Users/eric/Documents/work/"]
+    path = C:/Users/eric/.gitconfig-work
+[safe]
+	directory = F:/Mes_Sites/workflows

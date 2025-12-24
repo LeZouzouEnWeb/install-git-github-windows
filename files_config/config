@@ -1,0 +1,40 @@
+# Configuration par défaut pour GitHub
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile /c/Users/eric/.ssh/home
+    IdentitiesOnly yes
+
+# ===============================================================
+# SSH CONFIG MULTI-COMPTES GITHUB (HOME + WORK)
+# ===============================================================
+
+# Désactive le hashing pour lisibilité
+HashKnownHosts no
+
+# ---------------------------------------------------------------
+# Compte GitHub personnel (alias)
+# ---------------------------------------------------------------
+Host github-home
+    HostName github.com
+    User git
+    IdentityFile /c/Users/eric/.ssh/home
+    IdentitiesOnly yes
+
+# ---------------------------------------------------------------
+# Compte GitHub professionnel
+# ---------------------------------------------------------------
+Host github-work
+    HostName github.com
+    User git
+    IdentityFile /c/Users/eric/.ssh/work
+    IdentitiesOnly yes
+
+# ---------------------------------------------------------------
+# Fix Windows / Git Bash issues
+# ---------------------------------------------------------------
+ServerAliveInterval 120
+TCPKeepAlive yes
+ControlMaster auto
+ControlPath ~/.ssh/control-%C
+ControlPersist 5m

@@ -1,0 +1,11 @@
+# ===============================================================
+# Identité professionnelle GitHub
+# ===============================================================
+
+[user]
+    name = Eric (Work)
+    email = <email pro ici>
+
+# Force les remotes à utiliser la clé pro
+[url "git@github.com-work:"]
+    insteadOf = git@github.com:
