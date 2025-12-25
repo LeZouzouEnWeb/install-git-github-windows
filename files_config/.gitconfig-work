@@ -1,11 +1,15 @@
 # ===============================================================
-# Identité professionnelle GitHub
+# CONFIGURATION WORK (à placer dans C:/Users/eric/.gitconfig-work)
 # ===============================================================
+# Ce fichier est automatiquement chargé pour les dépôts 
+# situés dans C:/Users/eric/Documents/work/
 
 [user]
-    name = Eric (Work)
-    email = <email pro ici>
+    name = <NOM Prénom PRO>
+    email = <EMAIL WORK>
 
-# Force les remotes à utiliser la clé pro
-[url "git@github.com-work:"]
+# Force les remotes à utiliser l'alias github-work
+# Redirige automatiquement git@github.com vers git@github-work
+[url "git@github-work:"]
     insteadOf = git@github.com:
+
